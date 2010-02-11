@@ -18,6 +18,7 @@ module DatabaseUtils
   
   ## I encourage you to move the following code outside this file
   ## I put it here just to keep all the code in the same file
+  ## The $rails_rake_task global variable is true if we are running a rake task
   begin
     Symbol.class_eval do
       include DatabaseUtils
@@ -26,6 +27,7 @@ module DatabaseUtils
     String.class_eval do
       include DatabaseUtils
     end
-  end if $rails_rake_task #include module only if we are in a migration
+  end if $rails_rake_task # include the module only if we are in a rake task
+                          #   like rake db:migration
 
 end
