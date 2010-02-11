@@ -29,10 +29,22 @@ Usage 2:
 
 class MyMigration < ActiveRecord::Migration
   def self.up
-  	add_column :my_migration, :my_column, :string if :my_migration.column_exists? :my_column
+  	add_column :my_migration, :my_column, :string unless :my_migration.column_exists? :my_column
   end
 
   def self.down
 	remove_column :my_migration, :my_column if :my_migration.column_exists? :my_column
+  end
+end
+
+Usage 3:
+
+class MyMigration < ActiveRecord::Migration
+  def self.up
+  	add_index :my_migration, :my_column, :name => "index_name" unless :my_migration.named_index_exists? :index_name  
+  end
+
+  def self.down
+	remove_index :my_migration, :name => :index_name if :my_migration.named_index_exists? :index_name
   end
 end
