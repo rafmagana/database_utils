@@ -1,0 +1,38 @@
+The DatabaseUtils module contains a set of methods which helps 
+to check the existence of tables, columns and indexes in a database.
+
+The module was made to be used in migrations but it can be
+used in the whole Rails application.
+
+Examples (all the methods returns true or false)
+
+:users.table_exists?
+:users.column_exists? :name
+:users.named_index_exists? :id_email_index
+
+Usage 1:
+
+class MyMigration < ActiveRecord::Migration
+  def self.up
+    create_table :my_migration do |t|
+      t.string :my_string
+      t.integer :my_int
+    end unless :my_migration.table_exists?
+  end
+
+  def self.down
+    drop_table :my_migration if :my_migration.table_exists?
+  end
+end
+
+Usage 2:
+
+class MyMigration < ActiveRecord::Migration
+  def self.up
+  	add_column :my_migration, :my_column, :string if :my_migration.column_exists? :my_column
+  end
+
+  def self.down
+	remove_column :my_migration, :my_column if :my_migration.column_exists? :my_column
+  end
+end
